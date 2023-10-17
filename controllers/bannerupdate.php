@@ -7,10 +7,11 @@ $description =trim($_REQUEST['description']);
 $cta_text =trim($_REQUEST['cta_text']);
 $cta_link =trim($_REQUEST['cta_link']);
 $video_link =trim($_REQUEST['video_link']);
-$image =$_FILES['image'];
+$image = $_FILES['image'];
+var_dump($image);
 $image_extension=pathinfo($image['name'] ,PATHINFO_EXTENSION);
 $image_size = $image['size'];
-
+$id= $_REQUEST['id'];
 $errors=[];
 
 
@@ -50,39 +51,51 @@ if (empty($video_link)) {
 //image validation
 $expected_extension=['jpg','jpeg','png','Webp'];
 if(!$image['size'] >0){
-    $errors['image_error'] = 'image is required';
-}
-elseif(in_array($image_extension,$expected_extension)){
-
-  $errors['image_error'] = 'image must be jpg,jpeg,png or webp ';
-}
-elseif($image['size'] >500000){
-    $errors['image_error'] = 'image size not more than 5 mb';
+    if(in_array($image_extension,$expected_extension)){
+        $errors['image_error'] = 'image must be jpg,jpeg,png or webp ';
+    }elseif($image['size'] >500000){
+        $errors['image_error'] = 'image size not more than 5 mb';
+    }
 }
 
 
 
 
 if(count($errors)>0){
-    $_SESSION['errors']=$errors;
-    header("Location: ./../backend/banneredit.php?id=$banner_id");
+    $_SESSION['errors']= $errors;
+    header("Location: ./../backend/banneredit.php?id=$id");
 }else{
+
+    $select_query = "SELECT image FROM banners WHERE id= '$id'";
+    $select_query_result= mysqli_query($conn, $select_query);
+    $data = mysqli_fetch_assoc($select_query_result);
+    
+    $image_path ='./../uploads/'. $data['image'];
     $image_name = uniqid().'.'.$image_extension;
-  
-    $query = "UPDATE banners SET title='$title',description='$description',cta_text='$cta_text',
-        cta_link='$cta_link',video_link='$video_link',image='$image_name' WHERE id= '$banner_id'";
+    if($image_size > 0){
+    
+        if(file_exists($image_path)){
+            unlink($image_path);
+        }
+        $query = "UPDATE banners SET title='$title',description='$description',cta_text='$cta_text',
+        cta_link='$cta_link',video_link='$video_link', image='$image_name' WHERE id= '$id'";
+    }else{
+        $query = "UPDATE banners SET title='$title',description='$description',cta_text='$cta_text',
+        cta_link='$cta_link',video_link='$video_link' WHERE id= '$id'";
+    
+    }
 
-    $result = mysqli_query($conn, $query);
+        $result = mysqli_query($conn, $query);
 
-if($result){
-    move_uploaded_file($image['tmp_name'],"./../uploads/".$image_name);
-  
-$_SESSION["success"] ="Banner updated successfully!.....";
-header("Location: ./../backend/banneredit.php?id=$banner_id");
-}else{
-    $_SESSION["success"] ="failed.....";
-header("Location: ./../backend/banneredit.php?id=$banner_id");
-}
+        if($result){
+        move_uploaded_file($image['tmp_name'],"./../uploads/".$image_name);
+        
+        $_SESSION["success"] ="Banner updated successfully!.....";
+        header("Location: ./../backend/banneredit.php?id=$id");
+        }else{
+            $_SESSION["fall"] ="failed.....";
+        header("Location: ./../backend/banneredit.php?id=$id");
+        }
 }
 
 

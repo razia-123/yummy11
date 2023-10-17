@@ -1,7 +1,7 @@
 <?php
 
 include './../contact.php';
-$query ="SELECT id,title,status,image FROM banners";
+$query ="SELECT * FROM categories";
 $result= mysqli_query($conn ,$query);
 $posts = mysqli_fetch_all($result,1);
 
@@ -16,7 +16,7 @@ include_once './backend_inc/header.php';
 
 
 <div class="container">
-        <p class=" display-4 h2 text-center mt-3 mb-3">Banner List</p>
+        <p class=" display-4 h2 text-center mt-3 mb-3">Category List</p>
         <?php
     if (isset($_SESSION['mess'])){
  echo '<div class="alert alert-success">'.$_SESSION['mess']."</div>";
@@ -42,39 +42,29 @@ include_once './backend_inc/header.php';
     <thead class="bg-info ">
       <tr>
         <th scope="col">serial no</th>
-        <th scope="col">title</th>
+        <th scope="col">name</th>
         <!-- <th scope="col">description</th>
         <th scope="col">cta_text</th>
         <th scope="col">cta_link</th>
         <th scope="col">video_link</th> -->
-        <th scope="col">image</th>
-        <th scope="col">status</th>
+    
         <th scope="col">action</th>
 </tr>
     </thead>
         <tbody>
 <?php
 foreach($posts as $key=> $post){
-   
-
-?>
+   ?>
 <tr>
     <th scope='row'><?= ++$key?></th>
-    <td ><?=$post['title']?></td>
+    <td ><?=$post['f_name']?></td>
   
-    <td ><img src="./../uploads/<?=$post['image']?>" width="100"></td>
-    <td >
-        <a href="./../controllers/bannerstatus.php?id=<?=$post['id']?>" class="btn">
-     
-        <i class="<?=$post['status']?'fas': 'far'?> fa-star"></i>
-
-        </a>
-    </td>
+ 
     <td >
        <div class="btn-group-sm">
-        <a href="./bannerview.php?id=<?=$post['id']?>" class="btn btn-success"><i class="fas fa-eye"></i></a>
-        <a href="./banneredit.php?id=<?=$post['id']?>" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-        <a href="./../controllers/bannerdelete.php?id=<?=$post['id']?>" class="btn btn-danger delete_btn"><i class="fas fa-trash"></i></a>
+        <a href="./categori_view.php?id=<?=$post['id']?>" class="btn btn-success"><i class="fas fa-eye"></i></a>
+        <a href="./categori_edit.php?id=<?=$post['id']?>" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+        <a href="./../controllers/categori_delete.php?id=<?=$post['id']?>" class="btn btn-danger delete"><i class="fas fa-trash"></i></a>
 
        </div> 
     </td>
@@ -104,7 +94,7 @@ foreach($posts as $key=> $post){
 
 
 
-$('.delete_btn').on('click',function(event){
+$('.delete').on('click',function(event){
   event.preventDefault();
   Swal.fire({
   title: 'Are you sure?',

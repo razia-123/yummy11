@@ -47,7 +47,7 @@ if (empty($video_link)) {
 } 
 
 //image validation
-$expected_extension=['jpg','jpeg','png','Webp'];
+$expected_extension=['jpeg','png','Webp','jpg'];
 if(!$image['size'] >0){
     $errors['image_error'] = 'image is required';
 }

@@ -1,7 +1,7 @@
 <?php
 
 include './../contact.php';
-$banner_id= $_GET['id'];
+$banner_id= $_REQUEST['id'];
 $query ="SELECT * FROM banners WHERE id ='$banner_id'";
 $result= mysqli_query($conn ,$query);
 $post = mysqli_fetch_assoc($result);
@@ -20,7 +20,12 @@ include_once './backend_inc/header.php';
  echo '<div class="alert alert-success">'.$_SESSION['success']."</div>";
 }
  ?>
-    <form class="row my-5" action="./../controllers/bannerupdate.php<?= $post['id'] ?>" method="POST" enctype="multipart/form-data">
+  <?php
+    if (isset($_SESSION['fall'])){
+ echo '<div class="alert alert-success">'.$_SESSION['fall']."</div>";
+}
+ ?>
+    <form class="row my-5" action="./../controllers/bannerupdate.php?id=<?= $post['id']?>" method="POST" enctype="multipart/form-data">
         <div class="col-lg-12">
             <label for=""> Enter your Banner title</label>
             <input value="<?= $post['title'] ?>" name="title" class="form-control mb-4" type="text">
@@ -50,11 +55,11 @@ include_once './backend_inc/header.php';
         </div>
         <div class="col-lg-12">
             <label for=""> Enter your Banner  image </label>
-            <input  class="form-control mb-4" type="file">
+            <input name="image" class="form-control mb-4" type="file">
             <p class="text-danger"><?= isset($_SESSION['errors']['image_error'])? $_SESSION['errors']['image_error']: ''?></p>
             <img src="./../uploads/<?=$post['image']?>" width="200">
         </div>
-        <div class="col-lg-12  text-center">
+        <div class="col-lg-12 text-center">
            <button type="submit" class="btn btn-info w-25">Update Banner </button>
         </div>
 
@@ -74,5 +79,5 @@ include_once './backend_inc/footer.php';
 
 ?>
 <?php
-unset($_SESSION['errors'],$_SESSION['success']);
+unset($_SESSION['errors'],$_SESSION['success'],$_SESSION['fall']);
 ?>

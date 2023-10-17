@@ -29,7 +29,7 @@ if(!isset($_SESSION['auth'])){
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
 <body id="page-top">
@@ -76,6 +76,36 @@ if(!isset($_SESSION['auth'])){
                       
                         <a class="collapse-item" href="./bannerlist.php">All Banner</a>
                         <a class="collapse-item" href="./bannercreate.php">Add New Banner</a>
+                    </div>
+                </div>
+            </li>
+            <!-- menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-share"></i>
+                    <span> Catagories</span>
+                </a>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                      
+                        <a class="collapse-item" href="./categori_list.php">Categories </a>
+                        <a class="collapse-item" href="./categori_create.php">Add New Category</a>
+                    </div>
+                </div>
+            </li>
+             <!-- food -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsefour"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-heart"></i>
+                    <span> Foods</span>
+                </a>
+                <div id="collapsefour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                      
+                        <a class="collapse-item" href="./food_list.php"> All food </a>
+                        <a class="collapse-item" href="./food_create.php">Add New food</a>
                     </div>
                 </div>
             </li>
